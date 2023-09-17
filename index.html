@@ -1,0 +1,170 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <title>Weather Forecast</title>
+  <link href='https://fonts.googleapis.com/css?family=Abel' rel='stylesheet'>
+  <link href='https://fonts.googleapis.com/css?family=Anek Telugu' rel='stylesheet'>
+  <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Mouse Memoirs|Product Sans|Concert One|Alumni Sans Inline One">
+  <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Sofia&effect=neon|outline|emboss|shadow-multiple">
+  <!-- <link type="text/css" rel="stylesheet" href="path-to-fontawesome/font-awesome.css"> -->
+  
+  <!-- Icon Added -->
+  <link rel = "icon" href = "pics/icon.png" type = "image/x-icon">
+  <style>
+    /* styles.css */
+
+    body {
+      font-family: Arial, sans-serif;
+      margin: 0;
+      padding: 0;
+      display: flex;
+      justify-content: center;
+      align-items: center; 
+      flex-direction: column;
+    }
+
+    h1 {
+      text-align: center;
+      margin-bottom: 20px;
+    }
+
+    .container {
+      display: flex;
+      justify-content: space-between;  
+      width: 100%;
+      max-width: 1200px; 
+    }
+
+    .left-side {
+      flex-basis: 40%; 
+    }
+
+    .right-side {
+      flex-basis: 55%; 
+      padding: 20px; 
+    }
+
+    .ccs {
+        background-color: #262a2e;
+        color: white;
+        padding: 1px 1px 1px 1px;
+        padding-bottom: 2px;
+        border: none;
+        border-radius: 30px;
+        cursor: pointer;
+        font-size: 16px;
+        transition: background-color 0.3s ease, color 0.3s ease;
+        float: right;
+      }
+  
+      .ccs:hover {
+        background-color: #262a2e;
+      }
+  </style>
+</head>
+<body>
+    <!-- <button id="reloadButton">Reload JavaScript</button> -->
+<div>
+  <br>
+  <center><span style="font-size: 60px;font-family:Anek Telugu;font-weight:bolder;color:#e1a326">Weather</span><span style="font-size: 60px;font-family:Anek Telugu;font-weight:bolder;color:#c3c3c3">Api</span><img src="pics/icon.png" style="width:60px;margin-top:-10px;padding-bottom:10px"></center>
+</div>
+  <div class="container">
+    <div class="left-side" style="border: 2px solid #ccc; border-radius: 0px; padding: 20px;border-right:0px;">
+        <img src="" id="weatherImage" style="width: 100%;">
+    </div>
+    <div class="right-side" style="border: 2px solid #ccc; border-radius: 0px; padding: 20px;border-left:0px;">
+        <center><p style="font-size: 35px;font-weight:bold;font-family:Anek Telugu">Today's Weather</p></center>
+
+      <p style="font-size: 20px;font-family:Anek Telugu"><strong>Day:</strong> <span id="day"></span></p>
+      <p style="font-size: 20px;font-family:Anek Telugu"><strong>Date:</strong> <span id="date"></span><span style="font-size: 15px;">(month/date)</span> </p> 
+      <p style="font-size: 20px;font-family:Anek Telugu"><strong>High:</strong> <span id="high"></span></p>
+      <p style="font-size: 20px;font-family:Anek Telugu"><strong>Low:</strong> <span id="low"></span></p>
+      <p style="font-size: 20px;font-family:Anek Telugu"><strong>About:</strong> <span id="about"></span></p>
+    </div>
+  </div>
+  <button id="colorButton" class="ccs" style="float: right;">⚙️</button>
+  <script>
+
+    function fetchJSONFile(path, callback) {
+      var xhr = new XMLHttpRequest();
+      xhr.onreadystatechange = function () {
+        if (xhr.readyState === 4 && xhr.status === 200) {
+          var data = JSON.parse(xhr.responseText);
+          callback(data);
+        }
+      };
+      xhr.open("GET", path, true);
+      xhr.send();
+    }
+
+
+    fetchJSONFile("weather.json", function (weatherData) {
+      document.getElementById("day").textContent = weatherData.day;
+      document.getElementById("date").textContent = weatherData.date;
+      document.getElementById("high").textContent = weatherData.high;
+      document.getElementById("low").textContent = weatherData.low;
+      document.getElementById("about").textContent = weatherData.details;
+
+      const leftSideImage = document.getElementById("weatherImage");
+      const aboutText = weatherData.details.toLowerCase();
+      if (aboutText.includes("cloud")) {
+        leftSideImage.src = "pics/cloud-unscreen.gif";
+      }if(aboutText.includes("cloud") && aboutText.includes("sun")){
+            leftSideImage.src = "pics/daycloud-unscreen.gif";
+      }else if (aboutText.includes("sun")) {
+        leftSideImage.src = "pics/img1-unscreen.gif"; 
+      }
+    });
+  </script>
+  <script>
+    const colorButton = document.getElementById("colorButton");
+
+    colorButton.addEventListener("click", () => {
+      if (document.body.style.backgroundColor === "dimgrey") {
+        document.body.style.backgroundColor = "white";
+        document.body.style.color = "black";
+      } else {
+        document.body.style.backgroundColor = "dimgrey";
+        document.body.style.color = "white";
+      }
+    });
+  </script>
+
+
+  <!-- <script>
+    const reloadButton = document.getElementById("reloadButton");
+
+    reloadButton.addEventListener("click", () => {
+      // Create a new script element
+      const newScript = document.createElement("script");
+
+      // Set the source attribute to the JavaScript file you want to reload
+      newScript.src = "index.js";
+
+      // Append the new script element to the document
+      document.body.appendChild(newScript);
+
+      // Remove the old script element (optional)
+      const oldScript = document.querySelector("script[src='index.js']");
+      if (oldScript) {
+        document.body.removeChild(oldScript);
+      }
+    });
+  </script> -->
+
+  <script src="index.js"></script>
+
+
+
+
+
+
+
+
+
+
+
+
+  <!-- <script src="index.js"></script> -->
+</body>
+</html>
